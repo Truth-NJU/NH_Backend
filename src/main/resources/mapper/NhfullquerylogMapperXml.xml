@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backendnh.mapper.NhfullquerylogMapper">
+    <resultMap id="archive" type="com.example.backendnh.po.Nharchives">
+        <id column="id" property="id"/>
+        <result column="bh" property="bh"/>
+        <result column="damc" property="damc"/>
+        <result column="wb" property="wb"/>
+        <result column="flh" property="flh"/>
+        <result column="csrq" property="csrq"/>
+    </resultMap>
+    <resultMap id="statisticQuery" type="com.example.backendnh.po.StatisticQuery">
+        <result column="hotword" property="statistic"/>
+        <result column="chotword" property="statisticCount"/>
+    </resultMap>
+    <resultMap id="statisticArchives" type="com.example.backendnh.po.StatisticQuery">
+        <result column="statistic" property="statistic"/>
+        <result column="count" property="statisticCount"/>
+    </resultMap>
+    <select id="findByArchtext" resultMap="archive">
+        SELECT a.id, a.bh, a.damc, a.wb, a.flh, a.csrq
+        FROM nh_archives a,
+             nh_archives_text b
+        WHERE a.id = b.daid
+          AND b.dayw LIKE concat('%', #{keyword}, '%')
+        order by a.flh
+    </select>
+    <select id="statisticQuery" resultMap="statisticQuery">
+        SELECT hotword, COUNT(hotword) AS chotword
+        FROM nh_fullquerylog
+        GROUP BY hotword
+        ORDER BY chotword DESC
+        LIMIT 0,50
+    </select>
+    <select id="statisticArchivesWB" resultMap="statisticArchives">
+        SELECT wb AS statistic, COUNT(wb) AS count
+        FROM nh_archives
+        GROUP BY wb
+    </select>
+    <select id="statisticArchivesXGDY" resultMap="statisticArchives">
+        SELECT xgdy AS statistic, COUNT(xgdy) AS count
+        FROM nh_archives
+        GROUP BY xgdy
+    </select>
+    <select id="statisticArchivesGCDW" resultMap="statisticArchives">
+        SELECT gcdw AS statistic, COUNT(gcdw) AS count
+        FROM nh_archives
+        GROUP BY gcdw
+    </select>
+</mapper>

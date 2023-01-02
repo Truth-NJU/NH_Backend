@@ -1,0 +1,14 @@
+#配置文件#
+PageShowCount=10
+syspassword=admin
+Pawd.ldap=admin123
+Filter.ldap=objectclass=*
+tempdir=d:/Temp
+ArchIndexPath=d:/中文Test/luceneindex
+Url.ldap=ldap://127.0.0.1:389/dc=iis,dc=com
+LdapType=SunLdap
+BaseDn.ldap=ou=系统根元素
+sysusername=admin
+ArchPath=d:/中文Test/lucenefile
+User.ldap=cn=Directory Manager
+TxtArchPath=d:/中文Test/lucenetxtfile

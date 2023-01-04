@@ -15,8 +15,8 @@ class BackendNhApplicationTests {
     @Test
     void contextLoads() {
 
-        Nharchives nharchives= nharchivesMapper.selectById(4);
-        System.out.println(nharchives);
+//        Nharchives nharchives= nharchivesMapper.selectById(4);
+//        System.out.println(nharchives);
 
     }
 

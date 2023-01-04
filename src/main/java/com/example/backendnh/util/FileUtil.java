@@ -1,39 +1,8 @@
 package com.example.backendnh.util;
 
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
-
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
@@ -46,6 +15,23 @@ import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.w3c.dom.Document;
+
+import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtil {
     public FileUtil() {
@@ -397,15 +383,17 @@ public class FileUtil {
                     fPreviewImgPath.createNewFile();
                 }
 
-                FileOutputStream out = new FileOutputStream(strPreviewImgPath);
-                JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-                JPEGEncodeParam param2 = encoder.getDefaultJPEGEncodeParam(tag);
-                param2.setQuality(1.0F, false);
-                encoder.setJPEGEncodeParam(param2);
-                encoder.encode(tag);
+//                FileOutputStream out = new FileOutputStream(strPreviewImgPath);
+//                JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+//                JPEGEncodeParam param2 = encoder.getDefaultJPEGEncodeParam(tag);
+//                param2.setQuality(1.0F, false);
+//                encoder.setJPEGEncodeParam(param2);
+//                encoder.encode(tag);
+                String formatName = strPreviewImgPath.substring(strPreviewImgPath.lastIndexOf(".") + 1);
+                ImageIO.write(tag, /*"GIF"*/ formatName /* format desired */ , new File(strPreviewImgPath) /* target */ );
                 channel.close();
                 raf.close();
-                out.close();
+//                out.close();
                 return true;
             } catch (Exception var15) {
                 var15.printStackTrace();

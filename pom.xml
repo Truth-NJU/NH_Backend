@@ -188,22 +188,22 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-<!--                    <compilerArgument>-XDignore.symbol.file</compilerArgument>-->
-                    <compilerArguments>
-                        <verbose/>
-                        <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>
-<!--                        <bootclasspath>/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar${path.separator}/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar</bootclasspath>-->
-                    </compilerArguments>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>2.3.2</version>-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--&lt;!&ndash;                    <compilerArgument>-XDignore.symbol.file</compilerArgument>&ndash;&gt;-->
+<!--                    <compilerArguments>-->
+<!--                        <verbose/>-->
+<!--                        <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>-->
+<!--&lt;!&ndash;                        <bootclasspath>/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar${path.separator}/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar</bootclasspath>&ndash;&gt;-->
+<!--                    </compilerArguments>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

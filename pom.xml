@@ -198,7 +198,8 @@
                     <encoding>UTF-8</encoding>
                     <compilerArguments>
                         <verbose/>
-                        <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>
+<!--                        <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>-->
+                        <bootclasspath>/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar${path.separator}/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar</bootclasspath>
                     </compilerArguments>
                 </configuration>
             </plugin>

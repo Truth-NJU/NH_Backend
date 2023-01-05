@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/nh/arch")
-@CrossOrigin(origins = "http://124.222.139.8:8081", maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
+@CrossOrigin(origins = {"http://124.222.139.8:8081","http://localhost:8080"}, maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
 public class ArchController {
 
     @Autowired

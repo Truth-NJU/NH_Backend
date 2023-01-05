@@ -627,6 +627,11 @@ public class ArchServiceImpl implements ArchService {
             }
 
             response.reset();
+
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+
             response.setBufferSize(1048576);
             response.setContentType("APPLICATION/OCTET-STREAM");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + toUtf8String(strFileName) + "\"");

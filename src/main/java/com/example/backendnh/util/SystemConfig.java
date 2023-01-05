@@ -42,7 +42,9 @@ public class SystemConfig {
 //        strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
 //
 //        strLocalConfigFile = strTmp + "/configoracle.properties";
-        strLocalConfigFile = "/Users/taozehua/Downloads/研究任务/南海系统/NH_System/backend-NH/src/main/java/com/example/backendnh/util/configoracle.properties";
+        // todo 每次都需要修改
+//        strLocalConfigFile = "/Users/taozehua/Downloads/研究任务/南海系统/NH_System/backend-NH/src/main/java/com/example/backendnh/util/configoracle.properties";
+        strLocalConfigFile = "/var/lib/jenkins/workspace/NH_Backend/src/main/java/com/example/backendnh/util/configoracle.properties";
 //        System.out.println("配置文件绝对路径：" + strLocalConfigFile);
         File configfile = new File(strLocalConfigFile);
         this.prop = new Properties();

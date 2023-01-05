@@ -2,7 +2,6 @@ package com.example.backendnh.controller;
 
 
 import com.example.backendnh.bean.ImpArchivesResult;
-import com.example.backendnh.dto.NharchivesDTO;
 import com.example.backendnh.service.ArchService;
 import com.example.backendnh.util.SystemConfig;
 import com.example.backendnh.vo.ArchmarkVO;
@@ -20,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/nh/arch")
+@CrossOrigin(origins = "http://124.222.139.8:8081", maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
 public class ArchController {
 
     @Autowired

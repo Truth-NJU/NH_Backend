@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/nh/class")
+@CrossOrigin(origins = "http://124.222.139.8:8081", maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
 public class ClassController {
 
     @Autowired

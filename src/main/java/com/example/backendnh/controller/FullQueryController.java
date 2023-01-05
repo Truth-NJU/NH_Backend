@@ -3,13 +3,11 @@ package com.example.backendnh.controller;
 import com.example.backendnh.service.FullQueryService;
 import com.example.backendnh.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/nh/fullquery")
+@CrossOrigin(origins = "http://124.222.139.8:8081", maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
 public class FullQueryController {
     @Autowired
     FullQueryService fullQueryService;

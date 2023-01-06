@@ -1,18 +1,12 @@
 package com.example.backendnh.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
-import java.util.Enumeration;
-import java.util.Properties;
 
 // todo 解决乱码问题
 public class SystemConfig {
     public static final String strLocalConfigDescrible = "配置文件";
     public static String strLocalConfigFile = null;
-    private Properties prop = null;
     public static String[] strConfigNames = new String[]{"BaseDn.ldap", "Pawd.ldap", "Url.ldap", "User.ldap", "Filter.ldap", "LdapType", "PageShowCount", "sysusername", "syspassword", "tempdir", "ArchPath", "ArchIndexPath", "TxtArchPath"};
     public static final int BaseDn_ldap = 0;
     public static final int Pawd_ldap = 1;
@@ -29,46 +23,14 @@ public class SystemConfig {
     public static final int txtarchpath = 12;
 
     public SystemConfig() {
-//        String strTmp = this.getClass().getResource("SystemConfig.class").getPath();
-//
-//        try {
-//            strTmp = URLDecoder.decode(strTmp, "utf-8");
-//        } catch (UnsupportedEncodingException var5) {
-//            var5.printStackTrace();
-//        }
-//
-//        System.out.println(strTmp);
-//        String strClassPath = "/backendnh/util/SystemConfig";
-//        strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
-//
-//        strLocalConfigFile = strTmp + "/configoracle.properties";
-        // todo 每次都需要修改
-//        strLocalConfigFile = "/Users/taozehua/Downloads/研究任务/南海系统/NH_System/backend-NH/src/main/java/com/example/backendnh/util/configoracle.properties";
-        strLocalConfigFile = "/var/lib/jenkins/workspace/NH_Backend/src/main/java/com/example/backendnh/util/configoracle.properties";
-//        System.out.println("配置文件绝对路径：" + strLocalConfigFile);
-        File configfile = new File(strLocalConfigFile);
-        this.prop = new Properties();
-
-        try {
-            if (configfile.exists() && configfile.isFile()) {
-                this.prop.load(new FileInputStream(configfile));
-            } else {
-                for (int i = 0; i < strConfigNames.length; ++i) {
-                    this.prop.setProperty(strConfigNames[i], "");
-                }
-
-                this.prop.store(new FileOutputStream(configfile), "配置文件");
-            }
-        } catch (Exception var6) {
-            System.err.println("读取本地配置文件出现错误,请查看文件是否存在:" + strLocalConfigFile + ".\n错误信息:" + var6.getMessage());
-        }
+        PropertiesUtil.init();
     }
 
     public String getProperty(String strKey) {
         String strReturn = "";
 
         try {
-            strReturn = new String(this.prop.getProperty(strKey).getBytes("ISO8859_1"), "GB2312");
+            strReturn = PropertiesUtil.get(strKey);
         } catch (Exception var4) {
             System.err.println("读取属性" + strKey + "出现错误,错误信息:" + var4.getMessage());
         }
@@ -77,31 +39,17 @@ public class SystemConfig {
     }
 
     public void setProperty(String strKey, String strValue) {
-        this.prop.setProperty(strKey, strValue);
-    }
+        String strTmp = this.getClass().getResource("SystemConfig.class").getPath();
 
-    public boolean storeProperty() {
-        boolean blreturn = false;
-        if (strLocalConfigFile != null) {
-            try {
-                File file = new File(strLocalConfigFile);
-                FileOutputStream fos = new FileOutputStream(file);
-                String strProperties = "#配置文件#\n";
-                Enumeration elements = this.prop.keys();
-
-                for (int i = 0; i < this.prop.size(); ++i) {
-                    String strkeytemp = (String) elements.nextElement();
-                    strProperties = strProperties + strkeytemp + "=" + new String(this.prop.getProperty(strkeytemp).getBytes("ISO8859-1"), "GB2312") + "\n";
-                }
-
-                fos.write(strProperties.getBytes());
-                blreturn = true;
-            } catch (Exception var8) {
-                System.err.println("设置属性出现错误,错误信息:" + var8.getMessage());
-            }
+        try {
+            strTmp = URLDecoder.decode(strTmp, "utf-8");
+        } catch (UnsupportedEncodingException var5) {
+            var5.printStackTrace();
         }
-
-        return blreturn;
+        String strClassPath = "/com/example/backendnh/util/SystemConfig";
+        strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
+        String strLocalConfigFile = strTmp + "/configoracle.properties";
+        PropertiesUtil.update(strKey, strValue, strLocalConfigFile);
     }
 
     public String getFilter_ldap() {
@@ -122,6 +70,10 @@ public class SystemConfig {
 
     public String getBaseDn_ldap() {
         return this.getProperty(strConfigNames[0]);
+    }
+
+    public void setBaseDn_ldap(String baseDn) {
+        this.setProperty(strConfigNames[0], baseDn);
     }
 
     public String getLdapType() {
@@ -193,7 +145,7 @@ public class SystemConfig {
 
     public static void main(String[] args) {
         SystemConfig fc = new SystemConfig();
-        System.out.println(fc.getArchIndexPath());
+        fc.setBaseDn_ldap("ou=系统根元素");
 //        fc.setProperty("PageShowCount", "10");
 //        fc.setArchPath("C:/Test/luceneindex");
 //        fc.setArchIndexPath("C:/Test/luceneindex");

@@ -41,12 +41,11 @@ public class SystemConfigController {
         // 更新
         // System.out.println(sysConfigVO.toString());
         SystemConfig systemConfig=new SystemConfig();
+        // set 方法中已经自带将内容存入文件的功能
         systemConfig.setArchPath(sysConfigVO.getArchPath());
         systemConfig.setArchIndexPath(sysConfigVO.getArchIndexPath());
         systemConfig.setTxtArchPath(sysConfigVO.getTxtArchPath());
 //        systemConfig.setPageShowCount(sysConfigVO.getPageShowCount());
-        // 存储
-        systemConfig.storeProperty();
         return ResponseVO.succeed();
     }
 }

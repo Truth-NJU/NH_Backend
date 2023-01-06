@@ -46,9 +46,10 @@ public class SystemConfig {
         } catch (UnsupportedEncodingException var5) {
             var5.printStackTrace();
         }
-        String strClassPath = "/com/example/backendnh/util/SystemConfig";
+        String strClassPath = "target";
         strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
-        String strLocalConfigFile = strTmp + "/configoracle.properties";
+        String strLocalConfigFile = strTmp + "target/classes/configoracle.properties";
+        // System.out.println(strLocalConfigFile);
         PropertiesUtil.update(strKey, strValue, strLocalConfigFile);
     }
 

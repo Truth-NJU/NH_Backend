@@ -7,6 +7,8 @@ import java.net.URLDecoder;
 public class SystemConfig {
     public static final String strLocalConfigDescrible = "配置文件";
     public static String strLocalConfigFile = null;
+
+    public PropertiesUtil propertiesUtil;
     public static String[] strConfigNames = new String[]{"BaseDn.ldap", "Pawd.ldap", "Url.ldap", "User.ldap", "Filter.ldap", "LdapType", "PageShowCount", "sysusername", "syspassword", "tempdir", "ArchPath", "ArchIndexPath", "TxtArchPath"};
     public static final int BaseDn_ldap = 0;
     public static final int Pawd_ldap = 1;
@@ -23,22 +25,6 @@ public class SystemConfig {
     public static final int txtarchpath = 12;
 
     public SystemConfig() {
-        PropertiesUtil.init();
-    }
-
-    public String getProperty(String strKey) {
-        String strReturn = "";
-
-        try {
-            strReturn = PropertiesUtil.get(strKey);
-        } catch (Exception var4) {
-            System.err.println("读取属性" + strKey + "出现错误,错误信息:" + var4.getMessage());
-        }
-
-        return strReturn;
-    }
-
-    public void setProperty(String strKey, String strValue) {
         String strTmp = this.getClass().getResource("SystemConfig.class").getPath();
 
         try {
@@ -49,9 +35,25 @@ public class SystemConfig {
         String strClassPath = "target";
         strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
         String strLocalConfigFile = strTmp + "target/classes/configoracle.properties";
-         System.out.println(strLocalConfigFile);
+        System.out.println(strLocalConfigFile);
         strLocalConfigFile = strLocalConfigFile.replaceAll("file:", ""); // 服务器上遇到的问题
-        PropertiesUtil.update(strKey, strValue, strLocalConfigFile);
+        propertiesUtil = new PropertiesUtil(strLocalConfigFile);
+    }
+
+    public String getProperty(String strKey) {
+        String strReturn = "";
+
+        try {
+            strReturn = propertiesUtil.get(strKey);
+        } catch (Exception var4) {
+            System.err.println("读取属性" + strKey + "出现错误,错误信息:" + var4.getMessage());
+        }
+
+        return strReturn;
+    }
+
+    public void setProperty(String strKey, String strValue) {
+        propertiesUtil.update(strKey, strValue);
     }
 
     public String getFilter_ldap() {

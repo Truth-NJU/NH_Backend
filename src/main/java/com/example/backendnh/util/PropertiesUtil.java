@@ -9,28 +9,25 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 public class PropertiesUtil {
+    public String path;
 
-    public static Properties properties = new Properties();
-    public static final String path = "configoracle.properties";
 
-    public static void init() {
-        properties = new Properties();
-        InputStream inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
-        try {
-            properties.load(new InputStreamReader(inputStream, "UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public PropertiesUtil(String path){
+        this.path=path;
     }
-
     /**
      * 获取指定的value值
      *
      * @param key 要删除的属性key
      * @author liguangni
      */
-    public static String get(String key) {
-        PropertiesUtil.init();
+    public String get(String key) {
+        Properties properties = new Properties();
+        try {
+            properties.load(new InputStreamReader(new FileInputStream(this.path),"UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return properties.getProperty(key);
     }
 
@@ -40,11 +37,16 @@ public class PropertiesUtil {
      * @param key 要删除的属性key
      * @author liguangni
      */
-    public static void update(String key, String value,String path_tmp) {
-        PropertiesUtil.init();
+    public void update(String key, String value) {
+        Properties properties = new Properties();
+        try {
+            properties.load(new InputStreamReader(new FileInputStream(this.path),"UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         properties.setProperty(key, value);
         try (
-                OutputStreamWriter output = new OutputStreamWriter(Files.newOutputStream(Paths.get(path_tmp)), StandardCharsets.UTF_8);
+                OutputStreamWriter output = new OutputStreamWriter(Files.newOutputStream(Paths.get(this.path)), StandardCharsets.UTF_8);
         ) {
             properties.store(output, "");
             output.flush();
@@ -59,7 +61,13 @@ public class PropertiesUtil {
      * @param key 要删除的属性key
      * @author liguangni
      */
-    public static void delete(String key) {
+    public void delete(String key) {
+        Properties properties = new Properties();
+        try {
+            properties.load(new InputStreamReader(new FileInputStream(this.path),"UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         properties.remove(key);
         try (
                 FileOutputStream oFile = new FileOutputStream(path);
@@ -76,7 +84,13 @@ public class PropertiesUtil {
      *
      * @author liguangni
      */
-    public static void list() {
+    public void list() {
+        Properties properties = new Properties();
+        try {
+            properties.load(new InputStreamReader(new FileInputStream(this.path),"UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Enumeration en = properties.propertyNames(); // 得到配置文件的名字
         while (en.hasMoreElements()) {
             String strKey = (String) en.nextElement();

@@ -10,10 +10,11 @@ import java.util.Properties;
 
 public class PropertiesUtil {
 
-    public static final Properties properties = new Properties();
+    public static Properties properties = new Properties();
     public static final String path = "configoracle.properties";
 
     public static void init() {
+        properties = new Properties();
         InputStream inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(path);
         try {
             properties.load(new InputStreamReader(inputStream, "UTF-8"));
@@ -29,6 +30,7 @@ public class PropertiesUtil {
      * @author liguangni
      */
     public static String get(String key) {
+        PropertiesUtil.init();
         return properties.getProperty(key);
     }
 
@@ -39,6 +41,7 @@ public class PropertiesUtil {
      * @author liguangni
      */
     public static void update(String key, String value,String path_tmp) {
+        PropertiesUtil.init();
         properties.setProperty(key, value);
         try (
                 OutputStreamWriter output = new OutputStreamWriter(Files.newOutputStream(Paths.get(path_tmp)), StandardCharsets.UTF_8);

@@ -1,5 +1,5 @@
 spring:
-  datasource:
+#  datasource:
 #    url: jdbc:mysql://localhost:3306/nh?setUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&allowMultiQueries=true
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: root

@@ -35,7 +35,7 @@ public class SystemConfig {
         String strClassPath = "target";
         strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
         String strLocalConfigFile = strTmp + "target/classes/configoracle.properties";
-        System.out.println(strLocalConfigFile);
+        System.out.println("具体配置文件路径：" + strLocalConfigFile);
         strLocalConfigFile = strLocalConfigFile.replaceAll("file:", ""); // 服务器上遇到的问题
         propertiesUtil = new PropertiesUtil(strLocalConfigFile);
     }

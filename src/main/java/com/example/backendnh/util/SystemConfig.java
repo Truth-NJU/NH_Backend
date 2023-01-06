@@ -50,6 +50,7 @@ public class SystemConfig {
         strTmp = strTmp.substring(0, strTmp.indexOf(strClassPath));
         String strLocalConfigFile = strTmp + "target/classes/configoracle.properties";
         // System.out.println(strLocalConfigFile);
+        strLocalConfigFile = strLocalConfigFile.replaceAll("file:", ""); // 服务器上遇到的问题
         PropertiesUtil.update(strKey, strValue, strLocalConfigFile);
     }
 

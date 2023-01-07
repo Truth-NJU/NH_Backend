@@ -365,6 +365,7 @@ public class ArchServiceImpl implements ArchService {
     public ResponseVO getArchFullTextById(Integer archId) {
         Nharchives nharchives = nharchivesMapper.selectById(archId);
         String strContent = Utility.getFileString(nharchives.getBclj());
+        // System.out.println(strContent);
         return ResponseVO.succeed(strContent);
     }
 

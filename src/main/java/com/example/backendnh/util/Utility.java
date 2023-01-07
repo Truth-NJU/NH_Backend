@@ -1,11 +1,9 @@
 package com.example.backendnh.util;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,56 +45,36 @@ public class Utility {
     }
 
     public static String getFileString(String strFilePathName) {
-        String strFileString = "";
-        if (strFilePathName != null && strFilePathName.length() > 0) {
-            FileInputStream fis = null;
-            ByteArrayOutputStream baos = null;
-
-            String var8;
-            try {
-                File file = new File(strFilePathName);
-                if (file != null && file.exists() && file.isFile()) {
-                    fis = new FileInputStream(file);
-                    baos = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-
-                    int iTemp;
-                    while ((iTemp = fis.read(buffer)) != -1) {
-                        baos.write(buffer, 0, iTemp);
-                    }
-
-                    strFileString = baos.toString();
-                    fis.close();
-                    baos.close();
+        StringBuilder fileContent = new StringBuilder();
+        try {
+            File f = new File(strFilePathName);
+            if (f.isFile() && f.exists()) {
+                InputStreamReader read = new InputStreamReader(Files.newInputStream(f.toPath()), StandardCharsets.UTF_8);
+                BufferedReader reader = new BufferedReader(read);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    //将读取到的字符拼接
+                    fileContent.append(line);
                 }
-
-                var8 = strFileString;
-            } catch (Exception var20) {
-                var20.printStackTrace();
-                return "";
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException var19) {
-                        var19.printStackTrace();
+                read.close();
+                if (fileContent.toString().contains("charset=GBK")) {
+                    fileContent = new StringBuilder();
+                    // GBK格式的html文件，会出现乱码，需要重新读取
+                    read = new InputStreamReader(Files.newInputStream(f.toPath()), "GBK");
+                    reader = new BufferedReader(read);
+                    while ((line = reader.readLine()) != null) {
+                        //将读取到的字符拼接
+                        fileContent.append(line);
                     }
+                    read.close();
                 }
-
-                if (baos != null) {
-                    try {
-                        baos.close();
-                    } catch (IOException var18) {
-                        var18.printStackTrace();
-                    }
-                }
-
             }
-
-            return var8;
-        } else {
-            return "";
+        } catch (Exception e) {
+            System.out.println("读取文件内容操作出错");
+            e.printStackTrace();
         }
+        // System.out.println("fileContent:" + fileContent);
+        return fileContent.toString();
     }
 
     public static String markFileString(String strMark, String strFileString) {

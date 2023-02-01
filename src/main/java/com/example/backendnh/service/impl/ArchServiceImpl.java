@@ -10,17 +10,19 @@ import com.example.backendnh.po.*;
 import com.example.backendnh.service.ArchService;
 import com.example.backendnh.service.ExcelManager;
 import com.example.backendnh.util.*;
-import com.example.backendnh.vo.*;
+import com.example.backendnh.vo.ImportArchVO;
+import com.example.backendnh.vo.NharchivesVO;
+import com.example.backendnh.vo.ResponseVO;
+import com.example.backendnh.vo.VO;
 import com.example.backendnh.vo.http.ArchHttpStatus;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 @Service
@@ -40,7 +42,10 @@ public class ArchServiceImpl implements ArchService {
     @Autowired
     NhuserMapper nhuserMapper;
 
-
+    /**
+     * @param appendDir
+     * @return
+     */
     public ResponseVO getAllChildrenDirs(String appendDir) {
         SystemConfig systemConfig = new SystemConfig();
         String dir = systemConfig.getArchPath() + "/" + appendDir;
@@ -72,7 +77,6 @@ public class ArchServiceImpl implements ArchService {
             }
         }
         return impArchivesResult;
-
     }
 
     public boolean impSingleArchive(String strArchiveDir, boolean blnCover) {
@@ -85,7 +89,7 @@ public class ArchServiceImpl implements ArchService {
                 strArchiveDir = strArchiveDir.substring(0, strArchiveDir.length() - 1);
             }
 
-            String strIndexFile = FileUtil.getIndexFile();
+            String strIndexFile = FileUtil.getIndexFile();  // eg: /Users/taozehua/Downloads/data/archsrc/index.xls
             strSingleArchName = strArchiveDir.substring(strArchiveDir.lastIndexOf("/") + 1, strArchiveDir.length());
             ExcelManager excelManager = new ExcelManager();
             // 通过src目录下的index.xls表格得到对应的信息
@@ -686,7 +690,7 @@ public class ArchServiceImpl implements ArchService {
             strBCLJ = strBCLJ.replaceAll(strTxtArchRoot, strArchRoot);
             String strDocLJ = strBCLJ.substring(0, strBCLJ.lastIndexOf(".html"));
             for (int i = 0; i < files.length; i++) {
-                String fileName = files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf(".")+1);  // 文件名统一与原来的文件保持一致，只取后缀
+                String fileName = files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf(".") + 1);  // 文件名统一与原来的文件保持一致，只取后缀
                 System.out.println(strDocLJ + '.' + fileName);
                 File dest = new File(strDocLJ + '.' + fileName); // 上传文件的路径
                 if (!dest.getParentFile().exists()) {
@@ -760,6 +764,28 @@ public class ArchServiceImpl implements ArchService {
                     return ResponseVO.fail(ArchHttpStatus.UPLOAD_FILE_FAIL);
                 }
             }
+        }
+        return ResponseVO.succeed();
+    }
+
+    @Override
+    public ResponseVO uploadFileToPath(MultipartFile[] files, String txtOrSrc) {
+        // 将前端传过来的压缩包上传到uploadPath下面
+        String uploadPath;  // eg: /klein/data
+        uploadPath = new SystemConfig().getTxtArchPath().substring(0, new SystemConfig().getTxtArchPath().lastIndexOf("/"));
+        for (int i = 0; i < files.length; i++) {
+            String fileName = files[i].getOriginalFilename();  // 文件名
+            File dest = new File(uploadPath + '/' + fileName);
+            if (!dest.getParentFile().exists()) {
+                dest.getParentFile().mkdirs();
+            }
+            try {
+                files[i].transferTo(dest);
+            } catch (Exception e) {
+                return ResponseVO.fail(ArchHttpStatus.UPLOAD_FILE_FAIL);
+            }
+            UnPackeUtil.unPackZip(dest, null, uploadPath);
+
         }
         return ResponseVO.succeed();
     }

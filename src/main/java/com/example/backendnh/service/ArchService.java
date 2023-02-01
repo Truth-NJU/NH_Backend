@@ -92,6 +92,14 @@ public interface ArchService {
     ResponseVO uploadFile(MultipartFile[] files, String strType, Integer archId);
 
     /**
+     *
+     * @param files
+     * @param txtOrSrc 上传的是src文件夹还是txt文件夹
+     * @return
+     */
+    ResponseVO uploadFileToPath(MultipartFile[] files,String txtOrSrc);
+
+    /**
      * 删除档案下的附件
      *
      * @param attachId

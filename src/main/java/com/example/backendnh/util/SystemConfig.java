@@ -9,7 +9,7 @@ public class SystemConfig {
     public static String strLocalConfigFile = null;
 
     public PropertiesUtil propertiesUtil;
-    public static String[] strConfigNames = new String[]{"BaseDn.ldap", "Pawd.ldap", "Url.ldap", "User.ldap", "Filter.ldap", "LdapType", "PageShowCount", "sysusername", "syspassword", "tempdir", "ArchPath", "ArchIndexPath", "TxtArchPath"};
+    public static String[] strConfigNames = new String[]{"BaseDn.ldap", "Pawd.ldap", "Url.ldap", "User.ldap", "Filter.ldap", "LdapType", "PageShowCount", "sysusername", "syspassword", "tempdir", "ArchPath", "ArchIndexPath", "TxtArchPath","LocalSrcPath","LocalTxtPath"};
     public static final int BaseDn_ldap = 0;
     public static final int Pawd_ldap = 1;
     public static final int Url_ldap = 2;
@@ -145,6 +145,22 @@ public class SystemConfig {
 
     public void setTxtArchPath(String strTxtArchPath) {
         this.setProperty(strConfigNames[12], strTxtArchPath);
+    }
+
+    public String getLocalSrcPath() {
+        return this.getProperty(strConfigNames[13]);
+    }
+
+    public void setLocalSrcPath(String strLocalSrcPath) {
+        this.setProperty(strConfigNames[13], strLocalSrcPath);
+    }
+
+    public String getLocalTxtPath() {
+        return this.getProperty(strConfigNames[14]);
+    }
+
+    public void setLocalTxtPath(String strLocalTxtPath) {
+        this.setProperty(strConfigNames[14], strLocalTxtPath);
     }
 
     public static void main(String[] args) {

@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/nh/arch")
-@CrossOrigin(origins = {"http://124.222.139.8:8081","http://localhost:8080"}, maxAge = 3600, allowCredentials="true",allowedHeaders = "*",methods = {RequestMethod.POST,RequestMethod.GET})
+@CrossOrigin(origins = {"http://124.222.139.8:8081", "http://localhost:8080"}, maxAge = 3600, allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET})
 public class ArchController {
 
     @Autowired
@@ -215,22 +215,34 @@ public class ArchController {
         return archService.uploadFile(files, strType, archId);
     }
 
+    /**
+     * 用来在资料导入界面时将本地文件上传，并进行解压缩到服务器上对应的目录中
+     * @param files
+     * @param txtOrSrc
+     * @return
+     */
+    @PostMapping("/uploadFileToPath")
+    public ResponseVO uploadFileToPath(@RequestParam MultipartFile[] files,@RequestParam String txtOrSrc){
+        return archService.uploadFileToPath(files,txtOrSrc);
+    }
+
     @PostMapping("/deleteAttachFile")
-    public ResponseVO deleteAttachFile(@RequestParam Integer attachId){
+    public ResponseVO deleteAttachFile(@RequestParam Integer attachId) {
         return archService.deleteAttachFile(attachId);
     }
 
     @PostMapping("/deleteArchTextFile")
-    ResponseVO deleteArchTextFile(@RequestParam Integer archId){
+    ResponseVO deleteArchTextFile(@RequestParam Integer archId) {
         return archService.deleteArchTextFile(archId);
     }
+
     @PostMapping("/getArchTextDocName")
     public ResponseVO getArchTextDocName(@RequestParam String strBCLJ) {
         return archService.getArchTextDocName(strBCLJ);
     }
 
     @PostMapping("/updateArch")
-    public ResponseVO updateArch(@RequestBody NharchivesVO nharchivesVO){
+    public ResponseVO updateArch(@RequestBody NharchivesVO nharchivesVO) {
         return archService.updateArch(nharchivesVO.toDTO());
     }
 }

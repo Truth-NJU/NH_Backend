@@ -30,6 +30,10 @@ public class SysConfigVO implements VO{
 
     String txtArchPath;
 
+    String localSrcPath;
+
+    String localTxtPath;
+
     @Override
     public DTO toDTO() {
         return null;

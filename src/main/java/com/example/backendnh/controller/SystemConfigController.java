@@ -27,6 +27,8 @@ public class SystemConfigController {
         sysConfigVO.setArchIndexPath(systemConfig.getArchIndexPath());
         sysConfigVO.setTxtArchPath(systemConfig.getTxtArchPath());
         sysConfigVO.setPageShowCount(String.valueOf(systemConfig.getPageShowCount()));
+        sysConfigVO.setLocalSrcPath(systemConfig.getLocalSrcPath());
+        sysConfigVO.setLocalTxtPath(systemConfig.getLocalTxtPath());
         return ResponseVO.succeed(sysConfigVO);
     }
 
@@ -48,4 +50,17 @@ public class SystemConfigController {
 //        systemConfig.setPageShowCount(sysConfigVO.getPageShowCount());
         return ResponseVO.succeed();
     }
+
+    @PostMapping("/updateLocalConfig")
+    public ResponseVO updateLocalConfig(@RequestBody SysConfigVO sysConfigVO) {
+        // 更新导入时所需的本地src路径和本地txt路径
+        // System.out.println(sysConfigVO.toString());
+        SystemConfig systemConfig=new SystemConfig();
+        // set 方法中已经自带将内容存入文件的功能
+        systemConfig.setLocalSrcPath(sysConfigVO.getLocalSrcPath());
+        systemConfig.setLocalTxtPath(sysConfigVO.getLocalTxtPath());
+        return ResponseVO.succeed();
+    }
+
+
 }
